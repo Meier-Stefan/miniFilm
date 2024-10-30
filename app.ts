@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import { config } from "dotenv";
 import { filmRoutes } from "./routes/films.route";
+import { authRoutes } from "./routes/auth.route";
 
-// Load environment variables
 config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
@@ -20,5 +20,6 @@ main().catch((error) => console.log(error));
 
 app.use(express.json());
 app.use("/film", filmRoutes);
+app.use("/user", authRoutes);
 
 app.listen(3000);
