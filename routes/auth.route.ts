@@ -1,5 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 import { registerValidation, loginValidation } from "@/validations";
 
@@ -46,7 +47,10 @@ authRoutes.post("/login", async (req, res): Promise<any> => {
   if (!passwordIsValid) {
     return res.status(400).send({ message: "Invalid Password" });
   }
-  res.send("success");
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, {
+    expiresIn: "1h",
+  });
+  res.header("auth-token", token).send({ "auth-token": token });
 });
 
 export { authRoutes };
