@@ -1,8 +1,9 @@
 import express from "express";
 import { Film } from "../models/Film";
+import { verifyToken } from "@/verifyToken";
 const filmRoutes = express.Router();
 
-filmRoutes.get("/", async (req, res) => {
+filmRoutes.get("/", verifyToken, async (req, res) => {
   try {
     const filmsToGet = await Film.find();
     res.send(filmsToGet);
